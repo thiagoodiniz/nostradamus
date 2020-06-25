@@ -2,21 +2,33 @@ import React from 'react';
 import './Header.scss';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
     const [value, setValue] = React.useState(0);
+
+    const tabs = [
+        {
+            title: 'Treinamento',
+            route: '/trainings'
+        },
+        {
+            title: 'Meus modelos',
+            route: '/models'
+        }
+    ];
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
 
     return(
-        <header className="header">
-            <div className="header__logo">
+        <section className="header-content">
+            <div className="header-content__logo">
                 <span>Nostradamus</span>
             </div>
 
-            <div className="header__tabs">
+            <div className="header-content__tabs">
                 <Tabs
                     value={value}
                     indicatorColor="primary"
@@ -24,14 +36,15 @@ export default function Header() {
                     onChange={handleChange}
                     aria-label="menu tabs"
                 >
-                    <Tab style={{textTransform: 'none'}} label="Treinamento" />
-                    <Tab style={{textTransform: 'none'}} label="Meus modelos" disabled/>
+                    { tabs.map((tab, idx) => 
+                        <Tab style={{textTransform: 'none'}} key={idx} component={Link} to={tab.route} label={tab.title} />
+                    ) }
                 </Tabs>
             </div>
 
-            <div className="header__user-info">
+            <div className="header-content__user-info">
                 Thiago Diniz
             </div>
-        </header>
+        </section>
     );
 }
