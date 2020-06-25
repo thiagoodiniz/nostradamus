@@ -40,7 +40,7 @@ export default function Trainings() {
         <section className={classes.root}>
 
             <Card className={classes.uploadCard}>
-                <ImportDataContent classes={classes} />
+                <ImportDataContent parentClasses={classes} />
             </Card>
 
             <Card className={classes.parametersCard}>
