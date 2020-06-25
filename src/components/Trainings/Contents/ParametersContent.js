@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, CardContent, Typography } from '@material-ui/core';
+import { CardContent, Typography } from '@material-ui/core';
 
 export default function ParametersContent(props) {
 

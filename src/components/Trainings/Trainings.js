@@ -24,12 +24,14 @@ const useStyles = makeStyles({
         height: '100%',
     },
     cardTitle: {
+        fontSize: '16px',
         fontWeight: 'bold',
     },
     cardDescription: {
         fontSize: '10px'
     }
-  });
+});
+
 export default function Trainings() {
 
     const classes = useStyles();
