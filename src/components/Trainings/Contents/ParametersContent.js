@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { CardContent, Typography, withStyles } from '@material-ui/core';
+import { CardContent, Typography, withStyles, Button } from '@material-ui/core';
+import { connect } from 'react-redux';
 
 const useStyles = () => ({
-    root: {
-        height: '100%',
-    },
     parametersContainer: {
-        height: '70%',
+        height: '65%',
         display: 'flex',    
         justifyContent: 'space-between',
     },
@@ -39,8 +37,32 @@ const useStyles = () => ({
     },
     feature: {
         height: '60%',
-    }
-
+    },
+    columnItemContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        maxHeight: '15.5rem',
+        flexWrap: 'wrap',
+    },
+    columnItem: {
+        width: '40%',
+        backgroundColor: '#ffffff',
+        border: '1px solid #cdcdcd',
+        padding: '2px 5px',
+        margin: '5px 5px 5px 0',
+        borderRadius: '5px',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+    },
+    button: {
+        maxHeight: '2.5em',
+        textTransform: 'none',
+        width: '25%',
+        fontSize: '12px', 
+        float: 'right',
+        marginTop: '10px'
+    },
 });
 class ParametersContent extends Component{
 
@@ -62,6 +84,15 @@ class ParametersContent extends Component{
                     <div className={`${classes.borderDashed} ${classes.values}`}>
                         <div>
                             <span className="title">Valores</span>
+                            <div className={ classes.columnItemContainer }>
+                                { this.props.columns.map((col, idx) =>
+                                    <div className={ classes.columnItem } key={ idx } title={ col }>
+                                        <span>
+                                            { col }
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
     
@@ -80,10 +111,18 @@ class ParametersContent extends Component{
                     </div>
 
                 </section>
+
+                    <Button className={ classes.button } variant="contained" color="primary" component="label">
+                        Próximo
+                    </Button>
     
             </CardContent>
         );
     }
 }
 
-export default withStyles(useStyles)(ParametersContent);
+const mapStateToProps = (state) => ({
+    columns: state.trainingReducer.columns
+});
+
+export default connect(mapStateToProps, null)(withStyles(useStyles)(ParametersContent));

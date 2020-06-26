@@ -4,18 +4,21 @@ import { makeStyles } from '@material-ui/core';
 import ImportDataContent from './Contents/ImportDataContent';
 import ParametersContent from './Contents/ParametersContent';
 import TrainingContent from './Contents/TrainingContent';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
     root: {
-        height: '25rem',
+        height: '27rem',
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     defaultCard: {
         width: '100%',
         height: '100%',
-        marginBottom: '5%'
+        position: 'relative'
     },
     uploadCard: {
         "@media (min-width: 1280px)": {
@@ -44,11 +47,19 @@ const useStyles = makeStyles({
     },
     cardHeader: {
         height: '17%'
+    },
+
+    checkIcon: {
+        color: '#3f51b5',
+        position: 'absolute',
+        right: '5px',
+        top: '5px'
     }
 });
 
 export default function Trainings() {
-
+    const activeStep = useSelector(state => state.trainingReducer.step);
+    
     const classes = useStyles();
     
     return(
@@ -56,6 +67,11 @@ export default function Trainings() {
 
             <Card className={`${classes.defaultCard} ${classes.uploadCard} `}>
                 <ImportDataContent parentClasses={classes} />
+
+                { activeStep > 0 && 
+                    <FontAwesomeIcon className={ classes.checkIcon } size='lg' icon={ faCheckCircle } />
+                }
+
             </Card>
 
             <Card className={`${classes.defaultCard} ${classes.parametersCard} `}>

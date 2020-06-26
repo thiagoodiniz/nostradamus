@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { CardContent, Typography, Button, withStyles } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { bindActionCreators } from 'redux';
+import { Creators } from '../../../store/actions/trainingActions';
+import { connect } from 'react-redux';
 
 const useStyles = () => ({
-    root: {
-        height: '100%',
-    },
     uploadField: {
         height: '70%',
         backgroundColor: '#fcfcfc',
@@ -28,18 +28,12 @@ const useStyles = () => ({
         width: '70%',
         fontSize: '12px', 
         marginBottom: '5px'
-
     },
 });
 
 class ImportDataContent extends Component {
-    
-    state = {
-        titles: [],
-    }
-    
+        
     acceptedFiles = ['text/csv'];
-
     
     onFileUploaded = (e) => {
         let file = e.target.files[0];
@@ -50,7 +44,7 @@ class ImportDataContent extends Component {
         
         const reader = new FileReader();
 
-        reader.onload = (e) => {
+        reader.onload = (e, a) => {
             const csv = e.target.result;
             
             const allTextLines = csv.split(/\r\n|\n/);
@@ -61,12 +55,10 @@ class ImportDataContent extends Component {
                 .replace(/\s+/g, '')
                 .split(',');
 
-            this.setState({ titles });
+            this.props.onReadFile(e.target.fileName, titles);
         }
-
-        this.setState({ fileName: file.name });
         
-        
+        reader.fileName = file.name;
         reader.readAsText(file);
 
     }
@@ -86,7 +78,7 @@ class ImportDataContent extends Component {
                 </div>
     
                 <div className={ classes.uploadField }>
-                    { !this.state.fileName  && 
+                    { !this.props.fileName  && 
                             <div className={ classes.buttonContainer}>
                                 <Button className={ classes.button } variant="contained" color="primary" component="label">
                                     <FontAwesomeIcon icon={ faUpload } />
@@ -105,10 +97,10 @@ class ImportDataContent extends Component {
             
                             </div>
                     }
-                    { this.state.fileName && 
+                    { this.props.fileName && 
                         <div>
                             <Typography variant="body2" style={{textAlign: 'center', width: '70%', fontWeight: 'bold'  }} color="textSecondary" component="p">
-                                { this.state.fileName }
+                                { this.props.fileName }
                             </Typography>
                         </div>
                     }
@@ -120,4 +112,10 @@ class ImportDataContent extends Component {
     }
 }
 
-export default withStyles(useStyles)(ImportDataContent);
+const mapStateToProps = (state) => ({
+    fileName: state.trainingReducer.fileName, 
+});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(Creators, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ImportDataContent));
