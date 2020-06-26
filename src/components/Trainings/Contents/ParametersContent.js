@@ -41,7 +41,7 @@ const useStyles = () => ({
     columnItemContainer: {
         display: 'flex',
         flexDirection: 'column',
-        maxHeight: '15rem',
+        maxHeight: '15.5rem',
         flexWrap: 'wrap',
     },
     columnItem: {

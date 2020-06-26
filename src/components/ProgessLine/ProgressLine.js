@@ -5,6 +5,7 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepConnector from '@material-ui/core/StepConnector';
+import { useSelector } from 'react-redux';
 
 const QontoConnector = withStyles({
   alternativeLabel: {
@@ -79,16 +80,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProgressLine() {
   const classes = useStyles();
-  const [activeStep] = React.useState(1);
+  const activeStep = useSelector(state => state.trainingReducer.step);
   const steps = ['Import', 'Define Parameter', 'Training', 'Forecast'];
-
-//   const handleNext = () => {
-//     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-//   };
-
-//   const handleBack = () => {
-//     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-//   };
 
   return (
     <div className={classes.root}>
@@ -100,9 +93,6 @@ export default function ProgressLine() {
           </Step>
         ))}
       </Stepper>
-
-      {/* <button onClick={handleBack}>PREV</button>
-      <button onClick={handleNext}>NEXT</button> */}
 
     </div>
   );
