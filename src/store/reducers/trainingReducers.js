@@ -1,7 +1,7 @@
 import { Types } from "../actions/trainingActions";
 
 const INITIAL_STATE = {
-    file: undefined,
+    fileName: '',
     columns: [],
  }
 
@@ -10,7 +10,7 @@ const INITIAL_STATE = {
         case Types.ON_READ_FILE: {
             return {
                 ...state,
-                files: action.file,
+                fileName: action.fileName,
                 columns: action.columns,
             }
         }

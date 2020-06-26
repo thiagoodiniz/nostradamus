@@ -3,9 +3,9 @@ export const Types = {
 }
 
 export const Creators = {
-    onReadFile: (file, columns) => ({
+    onReadFile: (fileName, columns) => ({
         type: Types.ON_READ_FILE,
-        file,
+        fileName,
         columns,
     }),
 }

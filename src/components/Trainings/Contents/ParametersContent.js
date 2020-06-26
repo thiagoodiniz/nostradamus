@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { CardContent, Typography, withStyles } from '@material-ui/core';
+import { connect } from 'react-redux';
 
 const useStyles = () => ({
     parametersContainer: {
@@ -59,6 +60,7 @@ class ParametersContent extends Component{
                     <div className={`${classes.borderDashed} ${classes.values}`}>
                         <div>
                             <span className="title">Valores</span>
+                            { this.props.columns }
                         </div>
                     </div>
     
@@ -83,4 +85,8 @@ class ParametersContent extends Component{
     }
 }
 
-export default withStyles(useStyles)(ParametersContent);
+const mapStateToProps = (state) => ({
+    columns: state.trainingReducer.columns
+});
+
+export default connect(mapStateToProps, null)(withStyles(useStyles)(ParametersContent));
