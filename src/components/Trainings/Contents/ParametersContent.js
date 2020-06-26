@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { CardContent, Typography, withStyles } from '@material-ui/core';
 
 const useStyles = () => ({
-    root: {
-        height: '100%',
-    },
     parametersContainer: {
         height: '70%',
         display: 'flex',    

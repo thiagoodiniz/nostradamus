@@ -4,9 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons'
 
 const useStyles = () => ({
-    root: {
-        height: '100%',
-    },
     uploadField: {
         height: '70%',
         backgroundColor: '#fcfcfc',
