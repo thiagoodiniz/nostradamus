@@ -9,19 +9,28 @@ const useStyles = makeStyles({
     root: {
         height: '25rem',
         display: 'flex',
+        flexWrap: 'wrap',
         justifyContent: 'space-between'
     },
-    uploadCard: {
-        width: '25%',
+    defaultCard: {
+        width: '100%',
         height: '100%',
+        marginBottom: '5%'
+    },
+    uploadCard: {
+        "@media (min-width: 1280px)": {
+            width: '25%',
+        },
     },
     parametersCard: {
-        width: '40%',
-        height: '100%',
+        "@media (min-width: 1280px)": {
+            width: '40%',
+        },
     },
     trainingCard: {
-        width: '30%',
-        height: '100%',
+        "@media (min-width: 1280px)": {
+            width: '30%',
+        },
     },
     cardTitle: {
         fontSize: '16px',
@@ -45,15 +54,15 @@ export default function Trainings() {
     return(
         <section className={classes.root}>
 
-            <Card className={classes.uploadCard}>
+            <Card className={`${classes.defaultCard} ${classes.uploadCard} `}>
                 <ImportDataContent parentClasses={classes} />
             </Card>
 
-            <Card className={classes.parametersCard}>
+            <Card className={`${classes.defaultCard} ${classes.parametersCard} `}>
                 <ParametersContent parentClasses={classes} />
             </Card>
 
-            <Card className={classes.trainingCard}>
+            <Card className={`${classes.defaultCard} ${classes.trainingCard} `}>
                 <TrainingContent classes={classes} />
             </Card>
         </section>
