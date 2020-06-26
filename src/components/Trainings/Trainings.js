@@ -29,6 +29,12 @@ const useStyles = makeStyles({
     },
     cardDescription: {
         fontSize: '10px'
+    },
+    cardRoot: {
+        height: '100%'
+    },
+    cardHeader: {
+        height: '17%'
     }
 });
 
@@ -44,7 +50,7 @@ export default function Trainings() {
             </Card>
 
             <Card className={classes.parametersCard}>
-                <ParametersContent classes={classes} />
+                <ParametersContent parentClasses={classes} />
             </Card>
 
             <Card className={classes.trainingCard}>
