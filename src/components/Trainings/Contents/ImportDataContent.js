@@ -28,7 +28,6 @@ const useStyles = () => ({
         width: '70%',
         fontSize: '12px', 
         marginBottom: '5px'
-
     },
 });
 

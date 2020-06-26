@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { CardContent, Typography, withStyles } from '@material-ui/core';
+import { CardContent, Typography, withStyles, Button } from '@material-ui/core';
 import { connect } from 'react-redux';
 
 const useStyles = () => ({
     parametersContainer: {
-        height: '70%',
+        height: '65%',
         display: 'flex',    
         justifyContent: 'space-between',
     },
@@ -41,7 +41,7 @@ const useStyles = () => ({
     columnItemContainer: {
         display: 'flex',
         flexDirection: 'column',
-        maxHeight: '15.5rem',
+        maxHeight: '15rem',
         flexWrap: 'wrap',
     },
     columnItem: {
@@ -54,6 +54,14 @@ const useStyles = () => ({
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
+    },
+    button: {
+        maxHeight: '2.5em',
+        textTransform: 'none',
+        width: '25%',
+        fontSize: '12px', 
+        float: 'right',
+        marginTop: '10px'
     },
 });
 class ParametersContent extends Component{
@@ -103,6 +111,10 @@ class ParametersContent extends Component{
                     </div>
 
                 </section>
+
+                    <Button className={ classes.button } variant="contained" color="primary" component="label">
+                        Próximo
+                    </Button>
     
             </CardContent>
         );
