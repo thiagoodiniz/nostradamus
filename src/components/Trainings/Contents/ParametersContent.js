@@ -37,8 +37,24 @@ const useStyles = () => ({
     },
     feature: {
         height: '60%',
-    }
-
+    },
+    columnItemContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        maxHeight: '15.5rem',
+        flexWrap: 'wrap',
+    },
+    columnItem: {
+        width: '40%',
+        backgroundColor: '#ffffff',
+        border: '1px solid #cdcdcd',
+        padding: '2px 5px',
+        margin: '5px 5px 5px 0',
+        borderRadius: '5px',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+    },
 });
 class ParametersContent extends Component{
 
@@ -60,7 +76,15 @@ class ParametersContent extends Component{
                     <div className={`${classes.borderDashed} ${classes.values}`}>
                         <div>
                             <span className="title">Valores</span>
-                            { this.props.columns }
+                            <div className={ classes.columnItemContainer }>
+                                { this.props.columns.map((col, idx) =>
+                                    <div className={ classes.columnItem } key={ idx } title={ col }>
+                                        <span>
+                                            { col }
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
     
