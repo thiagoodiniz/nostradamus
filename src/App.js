@@ -4,10 +4,12 @@ import ProgressLine from './components/ProgessLine/ProgressLine';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import Trainings from './components/Trainings/Trainings';
 import MyModels from './components/MyModels/MyModel';
+import { Provider } from 'react-redux';
+import store from './store';
 
 function App() {
   return (
-    <>
+    <Provider store={ store }>
       <BrowserRouter>
         <header className="header">
           <Header />
@@ -23,7 +25,7 @@ function App() {
         </div>
 
       </BrowserRouter>
-    </>
+    </Provider>
   );
 }
 
