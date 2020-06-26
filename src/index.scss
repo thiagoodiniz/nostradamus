@@ -1,15 +1,14 @@
 body {
   margin: 0;
+  background-color: #f6f6f6;
 }
 
 .header {
   display: flex;
   flex-direction: column;
+  background-color: #fff;
 }
 
 .content {
-  background-color: #f6f6f6;
-  // height: 75vh;
-  height: 27.5rem;
   padding: 2rem;
 }

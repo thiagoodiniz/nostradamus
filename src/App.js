@@ -7,7 +7,7 @@ import MyModels from './components/MyModels/MyModel';
 
 function App() {
   return (
-    <div>
+    <>
       <BrowserRouter>
         <header className="header">
           <Header />
@@ -23,7 +23,7 @@ function App() {
         </div>
 
       </BrowserRouter>
-    </div>
+    </>
   );
 }
 

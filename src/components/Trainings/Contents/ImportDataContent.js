@@ -3,7 +3,7 @@ import { CardContent, Typography, Button, withStyles } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons'
 
-const useStyles = theme => ({
+const useStyles = () => ({
     root: {
         height: '100%',
     },
@@ -15,7 +15,6 @@ const useStyles = theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: '2em'
     },
     buttonContainer: {
         width: '100%',
@@ -44,7 +43,6 @@ class ImportDataContent extends Component {
     
     onFileUploaded = (e) => {
         let file = e.target.files[0];
-        console.log('THIAGO', file);
         if(!file || !this.acceptedFiles.includes(file.type)){
             alert('Só aceita CSV');
             return;
@@ -77,13 +75,15 @@ class ImportDataContent extends Component {
         const { parentClasses, classes } = this.props;
 
         return(
-            <CardContent className={ classes.root }>
-                <Typography gutterBottom className={ parentClasses.cardTitle } variant="h5" component="h2">
-                    Import Data
-                </Typography>
-                <Typography variant="body2" className={ parentClasses.cardDescription } color="textSecondary" component="p">
-                    Import your dataset. Accepted files: .csv
-                </Typography>
+            <CardContent className={ parentClasses.cardRoot }>
+                <div className={ parentClasses.cardHeader }>
+                    <Typography gutterBottom className={ parentClasses.cardTitle } variant="h5" component="h2">
+                        Import Data
+                    </Typography>
+                    <Typography variant="body2" className={ parentClasses.cardDescription } color="textSecondary" component="p">
+                        Import your dataset. Accepted files: .csv
+                    </Typography>
+                </div>
     
                 <div className={ classes.uploadField }>
                     { !this.state.fileName  && 
