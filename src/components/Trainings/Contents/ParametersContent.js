@@ -7,13 +7,38 @@ const useStyles = () => ({
     },
     parametersContainer: {
         height: '70%',
-        // backgroundColor: '#fcfcfc',
-        // border: '1px dashed #cdcdcd',
-        // borderRadius: '5px',
-        // display: 'flex',
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        // marginTop: '2em'
+        display: 'flex',    
+        justifyContent: 'space-between',
+    },
+    borderDashed: {
+        backgroundColor: '#fcfcfc',
+        border: '1px dashed #cdcdcd',
+        borderRadius: '5px',
+        '& > div':{
+            padding: '12px',
+            fontSize: '12px',
+            '& > .title': {
+                fontWeight: 'bold'
+            }
+        }
+    },
+    values: {       
+        width: '30%',
+        border: '1px solid #cdcdcd',
+    },
+
+    nestedContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        height: '100%',
+        width: '65%',
+    },
+    target: {
+        height: '35%',
+    },
+    feature: {
+        height: '60%',
     }
 
 });
@@ -34,14 +59,26 @@ class ParametersContent extends Component{
                 </div>
     
                 <section className={ classes.parametersContainer }>
-                    <div>
-                        valores
+                    <div className={`${classes.borderDashed} ${classes.values}`}>
+                        <div>
+                            <span className="title">Valores</span>
+                        </div>
                     </div>
     
-                    <div>
-                        <div>target</div>
-                        <div>feature</div>
+                    <div className={ classes.nestedContainer }>
+                        <div className={`${classes.borderDashed} ${classes.target}`}>
+                            <div>
+                                <span className="title">Target</span>
+                            </div>
+                        </div>
+                        
+                        <div className={`${classes.borderDashed} ${classes.feature}`}>
+                            <div>
+                                <span className="title">Feature</span>
+                            </div>
+                        </div>
                     </div>
+
                 </section>
     
             </CardContent>
