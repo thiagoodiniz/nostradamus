@@ -1,0 +1,36 @@
+.alert-container{
+    animation: fadein .7s linear !important;
+
+    width: 40%;
+    padding: 10px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 1rem;
+    transform: translate(60%, -50%);
+    box-shadow: 0 2px 6px 1px rgb(0, 0, 0);
+    display: flex;
+    justify-content: space-between;
+
+    &__message {
+    }
+    
+    &__close{
+        &--btn {
+            background: none;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            color: unset;
+        }
+    }
+}
+
+.error {
+    background-color: #f44336;
+    color: #fff;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}

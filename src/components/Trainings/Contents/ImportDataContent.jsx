@@ -32,6 +32,10 @@ const useStyles = () => ({
 });
 
 class ImportDataContent extends Component {
+
+    state = {
+        file: undefined
+    }
         
     acceptedFiles = ['text/csv'];
     
@@ -42,25 +46,33 @@ class ImportDataContent extends Component {
             return;
         }
         
-        const reader = new FileReader();
-
-        reader.onload = (e, a) => {
-            const csv = e.target.result;
-            
-            const allTextLines = csv.split(/\r\n|\n/);
-
-            console.log(allTextLines);
-
-            const titles = allTextLines[0]
-                .replace(/\s+/g, '')
-                .split(',');
-
-            this.props.onReadFile(e.target.fileName, titles);
-        }
+        this.props.uploadFile(file);
         
-        reader.fileName = file.name;
-        reader.readAsText(file);
+        this.setState({ file });
+    }
 
+    componentDidUpdate = () => {
+        if(this.props.processId && !this.props.fileName){
+            const { file } = this.state;
+
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                const csv = e.target.result;
+                const allTextLines = csv.split(/\r\n|\n/);
+        
+                const titles = allTextLines[0]
+                    .replace(/\s+/g, '')
+                    .split(',');
+    
+                const fileName = e.target.fileName;
+
+                this.props.onUploadFileSuccess(fileName, titles);
+            }
+
+            reader.fileName = file.name;
+            reader.readAsText(file);
+        }
     }
 
     render(){
@@ -113,6 +125,7 @@ class ImportDataContent extends Component {
 }
 
 const mapStateToProps = (state) => ({
+    processId: state.trainingReducer.processId,
     fileName: state.trainingReducer.fileName, 
 });
 

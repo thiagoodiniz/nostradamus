@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import trainingReducer from './trainingReducers';
+import trainingReducer from './trainingReducer';
+import alertReducer from './alertReducer';
 
 export default combineReducers({
+    alertReducer,
     trainingReducer
 });
