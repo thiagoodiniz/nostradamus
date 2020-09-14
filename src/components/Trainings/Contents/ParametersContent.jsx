@@ -1,6 +1,10 @@
-import React, { Component } from 'react';
-import { CardContent, Typography, withStyles, Button } from '@material-ui/core';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { CardContent, Typography, withStyles, Button, Select, FormControl, InputLabel } from '@material-ui/core';
+import { connect, useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Columns from './ColumnsContent'
+import { Creators } from '../../../store/actions/trainingActions'
+import Parameter from './Parameters/Parameter'
 
 const useStyles = () => ({
     parametersContainer: {
@@ -38,6 +42,9 @@ const useStyles = () => ({
     feature: {
         height: '60%',
     },
+    resample: {
+        border: '1px solid #cdcdcd'
+    },
     columnItemContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -64,65 +71,93 @@ const useStyles = () => ({
         marginTop: '10px'
     },
 });
-class ParametersContent extends Component{
+function ParametersContent(props){
 
-    render(){
-        const { parentClasses, classes } = this.props;
+    const { parentClasses, classes  } = props
+    const columns = useSelector(state => state.trainingReducer.columns)
+    const resample = useSelector(state => state.trainingReducer.resample)
+    const dispatch = useDispatch()
 
-        return(
-            <CardContent className={ parentClasses.cardRoot }>
-                <div className={ parentClasses.cardHeader }>
-                    <Typography gutterBottom className={ parentClasses.cardTitle } variant="h5" component="h2">
-                        Parameters
-                    </Typography>
-                    <Typography variant="body2" className={ parentClasses.cardDescription } color="textSecondary" component="p">
-                        Buying the right telescope to take your love of astronomy to the next level is a big next step in the development of your passion for the stars. In many ways, it is a big step from someone
-                    </Typography>
-                </div>
-    
-                <section className={ classes.parametersContainer }>
-                    <div className={`${classes.borderDashed} ${classes.values}`}>
-                        <div>
-                            <span className="title">Valores</span>
-                            <div className={ classes.columnItemContainer }>
-                                { this.props.columns.map((col, idx) =>
-                                    <div className={ classes.columnItem } key={ idx } title={ col }>
-                                        <span>
-                                            { col }
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-    
-                    <div className={ classes.nestedContainer }>
-                        <div className={`${classes.borderDashed} ${classes.target}`}>
-                            <div>
-                                <span className="title">Target</span>
-                            </div>
-                        </div>
-                        
-                        <div className={`${classes.borderDashed} ${classes.feature}`}>
-                            <div>
-                                <span className="title">Feature</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </section>
-
-                    <Button className={ classes.button } variant="contained" color="primary" component="label">
-                        Próximo
-                    </Button>
-    
-            </CardContent>
-        );
+    const handleChange = (e) => {
+        dispatch(Creators.modifyResambleParameter(e.target.value))
     }
+
+    return(
+        <CardContent className={ parentClasses.cardRoot }>
+            <div className={ parentClasses.cardHeader }>
+                <Typography gutterBottom className={ parentClasses.cardTitle } variant="h5" component="h2">
+                    Parameters
+                </Typography>
+                <Typography variant="body2" className={ parentClasses.cardDescription } color="textSecondary" component="p">
+                    Buying the right telescope to take your love of astronomy to the next level is a big next step in the development of your passion for the stars. In many ways, it is a big step from someone
+                </Typography>
+            </div>
+
+            <section className={ classes.parametersContainer }>
+                <div className={`${classes.borderDashed} ${classes.values}`}>
+                    <div>
+                        <span className="title">Valores</span>
+                        <div className={ classes.columnItemContainer }>
+                            { columns.map((col, idx) =>
+                                <Columns key={idx} idx={ idx } col={col} />
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <div className={ classes.nestedContainer }>
+                    <div className={`${classes.borderDashed} ${classes.target}`}>
+                        <div className="dropTitle">
+                            <span className="title">Target</span>
+                        </div>
+                        <Parameter classes={classes} nameParameter="target" />
+                    </div>
+                    
+                    <div className={`${classes.borderDashed} ${classes.feature}`}>
+                        <div>
+                            <span className="title">Feature</span>
+                        </div>
+
+                        <Parameter classes={classes} nameParameter="feature" />
+                    </div>
+
+                    <div className={`${classes.borderDashed} ${classes.target}`}>
+                        <div className="dropTitle">
+                            <span className="title">Date</span>
+                        </div>
+                        <Parameter classes={classes} nameParameter="date" />
+                    </div>
+
+                    <div className={`${classes.borderDashed} ${classes.resample}`}>
+                        <div className="dropTitle">
+                            <span className="title">Resample</span>
+                        </div>
+                        <div>
+                        <FormControl className={classes.formControl}>
+                            <Select
+                                native
+                                value={resample}
+                                onChange={handleChange}
+                                >
+                                <option aria-label="None" value="" />
+                                <option value={'M'}>M</option>
+                                <option value={'D'}>D</option>
+                                <option value={'W'}>W</option>
+                            </Select>
+                        </FormControl>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+                <Button className={ classes.button } variant="contained" color="primary" component="label">
+                    Próximo
+                </Button>
+
+        </CardContent>
+    );
 }
 
-const mapStateToProps = (state) => ({
-    columns: state.trainingReducer.columns
-});
 
-export default connect(mapStateToProps, null)(withStyles(useStyles)(ParametersContent));
+export default (withStyles(useStyles)(ParametersContent));

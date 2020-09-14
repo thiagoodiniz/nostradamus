@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
     root: {
-        height: '27rem',
+        height: '35rem',
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'space-between',

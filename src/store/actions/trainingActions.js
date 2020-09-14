@@ -4,6 +4,10 @@ export const Types = {
     UPLOAD_FILE_FAILURE: '@training/UPLOAD_FILE_FAILURE',
 
     ON_UPLOAD_FILE_SUCCESS: '@training/ON_UPLOAD_FILE_SUCCESS',
+
+    DROP_COLUMN_ON_PARAMETER: '@training/DROP_COLUMN_ON_PARAMETER',
+
+    MODIFY_RESAMPLE_PARAMETER: '@training/MODIFY_RESAMPLE_PARAMETER'
 }
 
 export const Creators = {
@@ -26,4 +30,15 @@ export const Creators = {
         fileName,
         columns,
     }),
+
+    dropColumnOnParameter: (column, parameter) => ({
+        type: Types.DROP_COLUMN_ON_PARAMETER,
+        column,
+        parameter
+    }),
+
+    modifyResambleParameter: (value) => ({
+        type: Types.MODIFY_RESAMPLE_PARAMETER,
+        value
+    })
 }
