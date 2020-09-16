@@ -1,49 +1,72 @@
-import React, { useState } from 'react';
-import { CardContent, Typography, withStyles, Button, Select, FormControl, InputLabel } from '@material-ui/core';
-import { connect, useSelector, useDispatch } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React from 'react';
+import { CardContent, Typography, withStyles, Button, Select, FormControl } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
 import Columns from './ColumnsContent'
 import { Creators } from '../../../store/actions/trainingActions'
 import Parameter from './Parameters/Parameter'
 
 const useStyles = () => ({
     parametersContainer: {
-        height: '65%',
-        display: 'flex',    
-        justifyContent: 'space-between',
+        height: '70%',
+        display: 'grid',
+        gridTemplateColumns: '1fr 2fr',
+        gridGap: '10px'
     },
     borderDashed: {
         backgroundColor: '#fcfcfc',
         border: '1px dashed #cdcdcd',
         borderRadius: '5px',
+        display: 'grid',
+        gridTemplateRows: 'auto 1fr',
+        padding: '10px',
+        boxSizing: 'border-box',
         '& > div':{
-            padding: '12px',
             fontSize: '12px',
+            '&.dropField':{
+                overflowY: 'auto',
+                maxHeight: '68px',
+                '&::-webkit-scrollbar-track':{
+                    borderRadius: '6px',
+                    backgroundColor: '#afafaf4f'
+                },
+                '&::-webkit-scrollbar':{
+                    width: '6px',
+                    height: '6px'
+                },
+                '&::-webkit-scrollbar-thumb':{
+                    borderRadius: '6px',
+                    backgroundColor: '#AFAFAF'
+                }
+            },
             '& > .title': {
                 fontWeight: 'bold'
             }
         }
     },
     values: {       
-        width: '30%',
+        // width: '30%',
         border: '1px solid #cdcdcd',
+        width: "100%"
     },
 
     nestedContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        height: '100%',
-        width: '65%',
+        display: 'grid',
+        width: "100%",
+        gridTemplateRows: "25% 25% 25% 15%",
+        gridGap: '13px'
     },
     target: {
-        height: '35%',
+        // height: '15%',
     },
     feature: {
-        height: '60%',
+        // height: '40%',
+    },
+    feature: {
+        // height: '10%',
     },
     resample: {
-        border: '1px solid #cdcdcd'
+        border: '1px solid #cdcdcd',
+        // height: '10%'
     },
     columnItemContainer: {
         display: 'flex',
@@ -52,7 +75,7 @@ const useStyles = () => ({
         flexWrap: 'wrap',
     },
     columnItem: {
-        width: '40%',
+        width: '66px',
         backgroundColor: '#ffffff',
         border: '1px solid #cdcdcd',
         padding: '2px 5px',
@@ -70,6 +93,12 @@ const useStyles = () => ({
         float: 'right',
         marginTop: '10px'
     },
+    formControl: {
+        minWidth: 120,
+    },
+    dropTitle: {
+        // padding: '12px 12px 0 12px'
+    }
 });
 function ParametersContent(props){
 
@@ -107,7 +136,7 @@ function ParametersContent(props){
 
                 <div className={ classes.nestedContainer }>
                     <div className={`${classes.borderDashed} ${classes.target}`}>
-                        <div className="dropTitle">
+                        <div className={classes.dropTitle}>
                             <span className="title">Target</span>
                         </div>
                         <Parameter classes={classes} nameParameter="target" />
@@ -121,7 +150,7 @@ function ParametersContent(props){
                         <Parameter classes={classes} nameParameter="feature" />
                     </div>
 
-                    <div className={`${classes.borderDashed} ${classes.target}`}>
+                    <div className={`${classes.borderDashed} ${classes.date}`}>
                         <div className="dropTitle">
                             <span className="title">Date</span>
                         </div>

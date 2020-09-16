@@ -4,7 +4,7 @@ import { useDrag } from 'react-dnd'
 
 const useStyles = () => ({
     columnItem: {
-        width: '40%',
+        width: '66px',
         backgroundColor: '#ffffff',
         border: '1px solid #cdcdcd',
         padding: '2px 5px',

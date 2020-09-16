@@ -57,7 +57,8 @@ const INITIAL_STATE = {
         case Types.DROP_COLUMN_ON_PARAMETER: {
             return {
                 ...state,
-                [action.parameter]: [ ...state[action.parameter], action.column ]
+                [action.parameter]: [ ...state[action.parameter], action.column ],
+                columns: state.columns.filter((item) => item[0] !== action.column[0])
             }
         }
 

@@ -6,11 +6,11 @@ import { Creators } from '../../../../store/actions/trainingActions'
 
 export default function Parameter(props){
     const parameter = useSelector(state => state.trainingReducer[props.nameParameter])
+    const columns = useSelector(state => state.trainingReducer.columns)
     const dispatch = useDispatch()
 
     const onDrop = (item) => {
         const { nameColumn } = item
-        console.log(item, item.nameColumn, nameColumn)
         
         dispatch(Creators.dropColumnOnParameter(nameColumn, props.nameParameter))
     }
