@@ -37,7 +37,7 @@ class ImportDataContent extends Component {
         file: undefined
     }
         
-    acceptedFiles = ['text/csv'];
+    acceptedFiles = ['text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
     
     onFileUploaded = (e) => {
         let file = e.target.files[0];
@@ -60,14 +60,37 @@ class ImportDataContent extends Component {
             reader.onload = (e) => {
                 const csv = e.target.result;
                 const allTextLines = csv.split(/\r\n|\n/);
-        
-                const titles = allTextLines[0]
-                    .replace(/\s+/g, '')
-                    .split(',');
+                const columnsValue = []
+
+                // const titles = allTextLines[0]
+                //     .replace(/\s+/g, '')
+                //     .split(',');
+
+                const columns = allTextLines.map((item, idx) => {
+                    let col = item
+                              .replace(/\s+/g, '')
+                              .split(',');
+                  
+                    return col
+                })
+
+                columns.forEach((item, idx)=> {
+                    if (idx === 0) {
+                      item.forEach((col, key) => {
+                        columnsValue.push([item[key]])
+                      })
+                    }
+                    columnsValue.forEach((col, key) => {
+                      idx !== 0 && col.push(item[key])
+                    })
+                })
+
+
+                console.log(columnsValue)
     
                 const fileName = e.target.fileName;
 
-                this.props.onUploadFileSuccess(fileName, titles);
+                this.props.onUploadFileSuccess(fileName, columnsValue);
             }
 
             reader.fileName = file.name;
@@ -98,7 +121,7 @@ class ImportDataContent extends Component {
                                     <input
                                         type="file"
                                         style={{ display: "none" }}
-                                        accept=".csv"
+                                        accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                                         multiple={false}
                                         onChange={ (e)=> this.onFileUploaded(e) }
                                     />

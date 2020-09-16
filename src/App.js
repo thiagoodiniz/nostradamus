@@ -5,19 +5,23 @@ import ProgressLine from './components/ProgessLine/ProgressLine';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 function App() {
   return (
     <Provider store={ store }>
-      <BrowserRouter>
-        <header className="header">
-          <Header />
-          <ProgressLine />
-        </header>
+      <DndProvider backend={HTML5Backend}>
+        <BrowserRouter>
+          <header className="header">
+            <Header />
+            <ProgressLine />
+          </header>
 
-        <Home />
+          <Home />
 
-      </BrowserRouter>
+        </BrowserRouter>
+      </DndProvider>
     </Provider>
   );
 }

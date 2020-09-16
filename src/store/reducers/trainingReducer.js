@@ -7,6 +7,10 @@ const INITIAL_STATE = {
     loading: false,
     error: false,
     processId: undefined,
+    target: [],
+    feature: [],
+    date: [],
+    resample: ''
  }
 
  export default function trainingReducer(state=INITIAL_STATE, action) {
@@ -19,6 +23,7 @@ const INITIAL_STATE = {
                 processId: undefined,
                 fileName: '',
                 columns: [],
+                target: [],
             }
         }
 
@@ -45,6 +50,22 @@ const INITIAL_STATE = {
                 ...state,
                 fileName: action.fileName,
                 columns: action.columns,
+                target: []
+            }
+        }
+
+        case Types.DROP_COLUMN_ON_PARAMETER: {
+            return {
+                ...state,
+                [action.parameter]: [ ...state[action.parameter], action.column ],
+                columns: state.columns.filter((item) => item[0] !== action.column[0])
+            }
+        }
+
+        case Types.MODIFY_RESAMPLE_PARAMETER: {
+            return {
+                ...state,
+                resample: action.value
             }
         }
 
