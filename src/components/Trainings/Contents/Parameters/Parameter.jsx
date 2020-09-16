@@ -6,7 +6,6 @@ import { Creators } from '../../../../store/actions/trainingActions'
 
 export default function Parameter(props){
     const parameter = useSelector(state => state.trainingReducer[props.nameParameter])
-    const columns = useSelector(state => state.trainingReducer.columns)
     const dispatch = useDispatch()
 
     const onDrop = (item) => {
@@ -15,7 +14,7 @@ export default function Parameter(props){
         dispatch(Creators.dropColumnOnParameter(nameColumn, props.nameParameter))
     }
 
-    const [{ isOver, canDrop }, drop] = useDrop({
+    const [, drop] = useDrop({
         accept: [ 'CARD' ],
         drop: onDrop,
         collect: (monitor) => ({

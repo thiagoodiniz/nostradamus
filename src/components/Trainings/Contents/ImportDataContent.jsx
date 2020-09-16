@@ -75,13 +75,13 @@ class ImportDataContent extends Component {
                 })
 
                 columns.forEach((item, idx)=> {
-                    if (idx == 0) {
+                    if (idx === 0) {
                       item.forEach((col, key) => {
                         columnsValue.push([item[key]])
                       })
                     }
                     columnsValue.forEach((col, key) => {
-                      idx != 0 && col.push(item[key])
+                      idx !== 0 && col.push(item[key])
                     })
                 })
 

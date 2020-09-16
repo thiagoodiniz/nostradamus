@@ -61,9 +61,6 @@ const useStyles = () => ({
     feature: {
         // height: '40%',
     },
-    feature: {
-        // height: '10%',
-    },
     resample: {
         border: '1px solid #cdcdcd',
         // height: '10%'
