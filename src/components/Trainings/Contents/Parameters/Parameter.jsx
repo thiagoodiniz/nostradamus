@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { useDrop } from 'react-dnd'
 import { Creators } from '../../../../store/actions/trainingActions'
+import DragField from './DragField'
 
 
 export default function Parameter(props){
@@ -9,26 +10,26 @@ export default function Parameter(props){
     const dispatch = useDispatch()
 
     const onDrop = (item) => {
-        const { nameColumn } = item
+        const { column } = item
         
-        dispatch(Creators.dropColumnOnParameter(nameColumn, props.nameParameter))
+        if (column) {
+            dispatch(Creators.dropColumnOnParameter(column, props.nameParameter))
+        }
     }
-
+ 
     const [, drop] = useDrop({
         accept: [ 'CARD' ],
         drop: onDrop,
         collect: (monitor) => ({
           isOver: monitor.isOver(),
           canDrop: monitor.canDrop(),
-        }),
+        })
     })
 
     return (
         <div className="dropField" ref={drop}>
             {parameter.map((item,idx) => 
-                <div className={props.classes.columnItem} key={idx}>
-                    <span>{item[0]}</span>
-                </div>
+                <DragField classesColumnItem={props.classes.columnItem} key={idx} idx={idx} itemColumn={item}/>
             )}
         </div>
     )
