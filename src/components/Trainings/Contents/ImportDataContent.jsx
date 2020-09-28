@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import { CardContent, Typography, Button, withStyles } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { CardContent, Typography, Button, withStyles, FormControl, FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
-import { bindActionCreators } from 'redux';
 import { Creators } from '../../../store/actions/trainingActions';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const useStyles = () => ({
     uploadField: {
@@ -31,36 +30,44 @@ const useStyles = () => ({
     },
 });
 
-class ImportDataContent extends Component {
+function ImportDataContent(props){
+    const [file, setFile] = useState(undefined)
+    const [separator, setSeparator] = useState(",")
+    const processId = useSelector(state => state.trainingReducer.processId)
+    const fileName = useSelector(state => state.trainingReducer.fileName)
+    const acceptedFiles = ['text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+    const { parentClasses, classes } = props
+    const dispatch = useDispatch()
 
-    state = {
-        file: undefined
-    }
-        
-    acceptedFiles = ['text/csv', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
     
-    onFileUploaded = (e) => {
+    const onFileUploaded = (e) => {
         let file = e.target.files[0];
-        if(!file || !this.acceptedFiles.includes(file.type)){
+        if(!file || !acceptedFiles.includes(file.type)){
             alert('Só aceita CSV');
             return;
         }
         
-        this.props.uploadFile(file);
-        
-        this.setState({ file });
+        dispatch(Creators.uploadFile(file))
+        setFile(file);
     }
 
-    componentDidUpdate = () => {
-        if(this.props.processId && !this.props.fileName){
-            const { file } = this.state;
+    const handleChange = (e) => {
+        setSeparator(e.target.value)
+    }
+
+    useEffect(() => {
+        if(processId && !fileName){
 
             const reader = new FileReader();
 
             reader.onload = (e) => {
                 const csv = e.target.result;
-                const allTextLines = csv.split(/\r\n|\n/);
+                console.log(csv)
+                const allTextLines = csv.replace(/"/g, '').split(/\r\n|\n/);
+                // const allTextLines = csv.split("");
                 const columnsValue = []
+
+                console.log(allTextLines)
 
                 // const titles = allTextLines[0]
                 //     .replace(/\s+/g, '')
@@ -68,11 +75,13 @@ class ImportDataContent extends Component {
 
                 const columns = allTextLines.map((item, idx) => {
                     let col = item
-                              .replace(/\s+/g, '')
-                              .split(',');
+                            //   .replace(/\s+/g, '')
+                              .split(separator);
                   
                     return col
                 })
+
+                console.log(columns)
 
                 columns.forEach((item, idx)=> {
                     if (idx === 0) {
@@ -86,72 +95,76 @@ class ImportDataContent extends Component {
                 })
 
 
-                console.log(columnsValue)
+                // console.log(columnsValue)
     
                 const fileName = e.target.fileName;
 
-                this.props.onUploadFileSuccess(fileName, columnsValue);
+                dispatch(Creators.onUploadFileSuccess(fileName, columnsValue));
             }
 
             reader.fileName = file.name;
+
             reader.readAsText(file);
         }
-    }
+    }, [processId, fileName, file, dispatch, separator])
 
-    render(){
-        const { parentClasses, classes } = this.props;
 
-        return(
-            <CardContent className={ parentClasses.cardRoot }>
-                <div className={ parentClasses.cardHeader }>
-                    <Typography gutterBottom className={ parentClasses.cardTitle } variant="h5" component="h2">
-                        Import Data
+    return(
+        <CardContent className={ parentClasses.cardRoot }>
+            <div className={ parentClasses.cardHeaderModify2 }>
+                <Typography gutterBottom className={ parentClasses.cardTitle } variant="h5" component="h2">
+                    Import Data
+                </Typography>
+                <Typography variant="body2" className={ parentClasses.cardDescription } color="textSecondary" component="p">
+                    Import your dataset. Accepted files: .csv
+                </Typography>
+            </div>
+
+            <div className={ parentClasses.cardHeaderModify3 }>
+                <FormControl component="fieldset">
+                    <Typography gutterBottom className={ parentClasses.cardTitle } variant="h3" component="h3">
+                        Separator
                     </Typography>
-                    <Typography variant="body2" className={ parentClasses.cardDescription } color="textSecondary" component="p">
-                        Import your dataset. Accepted files: .csv
-                    </Typography>
-                </div>
-    
-                <div className={ classes.uploadField }>
-                    { !this.props.fileName  && 
-                            <div className={ classes.buttonContainer}>
-                                <Button className={ classes.button } variant="contained" color="primary" component="label">
-                                    <FontAwesomeIcon icon={ faUpload } />
-                                    <span style={{ marginLeft: '10px' }}>Adicionar arquivos</span>
-                                    <input
-                                        type="file"
-                                        style={{ display: "none" }}
-                                        accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                                        multiple={false}
-                                        onChange={ (e)=> this.onFileUploaded(e) }
-                                    />
-                                </Button>
-                                <Typography variant="body2" style={{textAlign: 'center', width: '70%' }} className={ parentClasses.cardDescription } color="textSecondary" component="p">
-                                    Clique ou arraste o arquivo para esta área para adicionar documentos
-                                </Typography>
-            
-                            </div>
-                    }
-                    { this.props.fileName && 
-                        <div>
-                            <Typography variant="body2" style={{textAlign: 'center', width: '70%', fontWeight: 'bold'  }} color="textSecondary" component="p">
-                                { this.props.fileName }
+                    <RadioGroup row aria-label="separator" name="separator1" value={separator} onChange={handleChange}>
+                        <FormControlLabel value="," control={<Radio color="primary" />} label="," />
+                        <FormControlLabel value=";" control={<Radio color="primary" />} label=";" />
+                    </RadioGroup>
+                </FormControl>
+            </div>
+
+            <div className={ classes.uploadField }>
+                { !fileName  && 
+                        <div className={ classes.buttonContainer}>
+                            <Button className={ classes.button } variant="contained" color="primary" component="label">
+                                <FontAwesomeIcon icon={ faUpload } />
+                                <span style={{ marginLeft: '10px' }}>Adicionar arquivos</span>
+                                <input
+                                    type="file"
+                                    style={{ display: "none" }}
+                                    accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                    multiple={false}
+                                    onChange={ (e)=> onFileUploaded(e) }
+                                />
+                            </Button>
+                            <Typography variant="body2" style={{textAlign: 'center', width: '70%' }} className={ parentClasses.cardDescription } color="textSecondary" component="p">
+                                Clique ou arraste o arquivo para esta área para adicionar documentos
                             </Typography>
+        
                         </div>
-                    }
-                    
-                </div>
-            </CardContent>
-        );
+                }
+                { fileName && 
+                    <div>
+                        <Typography variant="body2" style={{textAlign: 'center', width: '70%', fontWeight: 'bold', margin: '0 auto'  }} color="textSecondary" component="p">
+                            { fileName }
+                        </Typography>
+                    </div>
+                }
+                
+            </div>
+        </CardContent>
+    );
 
-    }
 }
 
-const mapStateToProps = (state) => ({
-    processId: state.trainingReducer.processId,
-    fileName: state.trainingReducer.fileName, 
-});
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(Creators, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ImportDataContent));
+export default (withStyles(useStyles)(ImportDataContent));
