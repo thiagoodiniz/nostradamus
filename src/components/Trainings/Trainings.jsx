@@ -49,6 +49,14 @@ const useStyles = makeStyles({
         height: '17%'
     },
 
+    cardHeaderModify2: {
+        height: '11%'
+    },
+
+    cardHeaderModify3: {
+        height: '13%'
+    },
+
     checkIcon: {
         color: '#3f51b5',
         position: 'absolute',

@@ -27,7 +27,7 @@ const useStyles = () => ({
 function Columns(props) {
     const { classes, idx, col } = props
     const [{ isDragging }, dragRef] = useDrag({
-        item: { type: 'CARD', nameColumn: col },
+        item: { type: 'CARD', column: col },
         collect: monitor => ({
             isDragging: monitor.isDragging()
         })
